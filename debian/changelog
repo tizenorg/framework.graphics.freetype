@@ -1,0 +1,7 @@
+freetype (2.4.3-6slp2+1) unstable; urgency=low
+
+  * Initial version 
+  * Git: unmodified/freetype
+  * Tag: freetype_2.4.3-6slp2+1
+
+ -- Deokjin Kim <deokjin81.kim@samsung.com>  Thu, 08 Dec 2011 13:32:53 +0900
