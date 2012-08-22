@@ -1,11 +1,11 @@
 Name:       freetype
 Summary:    A free and portable font rendering engine
-Version:    2.4.3
+Version:    2.4.9
 Release:    1
 Group:      System/Libraries
 License:    FTL or GPLv2+
 URL:        http://www.freetype.org
-Source0:    http://download.savannah.gnu.org/releases-noredirect/freetype/freetype-%{version}.tar.bz2
+Source0:    http://download.savannah.gnu.org/releases-noredirect/freetype/freetype-%{version}.tar.gz
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Provides:   %{name}-bytecode
