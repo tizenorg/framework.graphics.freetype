@@ -1,7 +1,7 @@
 Name:       freetype
 Summary:    A free and portable font rendering engine
 Version:    2.4.9
-Release:    1
+Release:    4
 Group:      System/Libraries
 License:    FTL or GPLv2+
 URL:        http://www.freetype.org
@@ -53,6 +53,8 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 
 %makeinstall gnulocaledir=$RPM_BUILD_ROOT%{_datadir}/locale
+mkdir -p %{buildroot}/usr/share/license
+cat docs/FTL.TXT > %{buildroot}/usr/share/license/%{name}
 
 
 # fix multilib issues
@@ -93,8 +95,10 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
 %manifest freetype.manifest
 %defattr(-,root,root,-)
 %{_libdir}/libfreetype.so.*
+/usr/share/license/%{name}
 
 %files devel
+%manifest freetype.manifest
 %defattr(-,root,root,-)
 %dir %{_includedir}/freetype2
 %{_datadir}/aclocal/freetype2.m4
