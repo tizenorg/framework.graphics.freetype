@@ -11,6 +11,7 @@ Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Provides:   %{name}-bytecode
 
+
 %description
 The FreeType engine is a free and portable font rendering
 engine, developed to provide advanced font support for a variety of
