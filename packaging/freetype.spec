@@ -1,11 +1,14 @@
 Name:       freetype
 Summary:    A free and portable font rendering engine
-Version:    2.4.9
+Version:    2.5.5
 Release:    1
 Group:      System/Libraries
-License:    FTL or GPLv2+
+License:    FTL or GPL-2.0+
 URL:        http://www.freetype.org
 Source0:    http://download.savannah.gnu.org/releases-noredirect/freetype/freetype-%{version}.tar.gz
+Source1001: packaging/freetype.manifest
+BuildRequires:  which
+BuildRequires:  pkgconfig(libpng)
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 Provides:   %{name}-bytecode
@@ -41,6 +44,7 @@ FreeType.
 %setup -q
 
 %build
+cp %{SOURCE1001} .
 
 %configure --disable-static
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' builds/unix/libtool
@@ -51,6 +55,8 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 
 %makeinstall gnulocaledir=$RPM_BUILD_ROOT%{_datadir}/locale
+mkdir -p %{buildroot}/usr/share/license
+cat docs/FTL.TXT > %{buildroot}/usr/share/license/%{name}
 
 
 # fix multilib issues
@@ -60,9 +66,9 @@ rm -rf %{buildroot}
 %define wordsize 32
 %endif
 
-mv $RPM_BUILD_ROOT%{_includedir}/freetype2/freetype/config/ftconfig.h \
-$RPM_BUILD_ROOT%{_includedir}/freetype2/freetype/config/ftconfig-%{wordsize}.h
-cat >$RPM_BUILD_ROOT%{_includedir}/freetype2/freetype/config/ftconfig.h <<EOF
+mv $RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h \
+$RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig-%{wordsize}.h
+cat >$RPM_BUILD_ROOT%{_includedir}/freetype2/config/ftconfig.h <<EOF
 #ifndef __FTCONFIG_H__MULTILIB
 #define __FTCONFIG_H__MULTILIB
 
@@ -88,16 +94,19 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/*.{a,la}
 %postun -p /sbin/ldconfig
 
 %files
+%manifest freetype.manifest
 %defattr(-,root,root,-)
 %{_libdir}/libfreetype.so.*
+/usr/share/license/%{name}
 
 %files devel
+%manifest freetype.manifest
 %defattr(-,root,root,-)
 %dir %{_includedir}/freetype2
 %{_datadir}/aclocal/freetype2.m4
 %{_includedir}/freetype2/*
-%{_includedir}/*.h
 %{_libdir}/libfreetype.so
 %{_bindir}/freetype-config
 %{_libdir}/pkgconfig/*.pc
+%{_datadir}/man/man1/*
 
